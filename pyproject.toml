@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "django-rest-framework"
+version = "0.1.0"
+description = ""
+authors = ["Ataraksia <1509lisavi@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.1.6"
+python-dotenv = "^1.0.1"
+psycopg2 = "^2.9.10"
+psycopg2-binary = "^2.9.10"
+djangorestframework = "^3.15.2"
+pillow = "^11.1.0"
+black = "^25.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

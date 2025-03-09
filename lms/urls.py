@@ -27,6 +27,7 @@ urlpatterns = [
     path(
         "lessons/<int:pk>/update/", LessonUpdateAPIView.as_view(), name="lesson_update"
     ),
+    # path("courses/", CourseViewSet.as_view({'get': 'list'}), name="courses_list"),
 ]
 
 urlpatterns += router.urls

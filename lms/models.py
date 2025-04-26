@@ -1,5 +1,7 @@
 from django.db import models
 
+from config.settings import AUTH_USER_MODEL
+
 
 class Course(models.Model):
     name = models.CharField(
@@ -19,6 +21,14 @@ class Course(models.Model):
         null=True,
         verbose_name="Описание",
         help_text="Введите описание курса",
+    )
+    owner = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Владелец",
+        help_text="Введите владельца",
     )
 
     class Meta:
@@ -66,6 +76,14 @@ class Lesson(models.Model):
         help_text="Введите ссылку на видео",
         null=True,
         blank=True,
+    )
+    owner = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Владелец",
+        help_text="Введите владельца",
     )
 
     class Meta:

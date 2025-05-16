@@ -1,5 +1,3 @@
-from django.utils.decorators import method_decorator
-from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.generics import (
     CreateAPIView,
@@ -19,12 +17,15 @@ from lms.models import Course, Lesson, Subscription
 from lms.serializers import CourseSerializer, LessonSerializer
 from users.permissions import IsModer, IsOwner
 
+from lms.tasks import course_update_mailing
+
 
 class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
     def get_permissions(self):
+
         if self.action in ["create"]:
             self.permission_classes = (~IsModer,)
         elif self.action in ["update", "retrieve"]:
@@ -34,6 +35,11 @@ class CourseViewSet(ModelViewSet):
         return super().get_permissions()
 
     pagination_class = CustomPagination
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        course_update_mailing.delay(instance.pk)
+        return instance
 
 
 class LessonViewSet(ModelViewSet):

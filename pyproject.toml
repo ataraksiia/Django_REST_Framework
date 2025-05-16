@@ -19,6 +19,10 @@ django-filter = "^25.1"
 ipython = "^9.2.0"
 drf-yasg = "^1.21.10"
 stripe = "^12.1.0"
+celery = "^5.5.2"
+redis = "^6.1.0"
+v = "^1"
+django-celery-beat = "^2.8.1"
 
 
 [build-system]

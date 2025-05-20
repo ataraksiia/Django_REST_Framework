@@ -28,7 +28,17 @@ def course_update_mailing(course_pk):
 
 @shared_task
 def check_last_login():
-    users = User.objects.filter(last_login__isnull=False)
+    today = timezone.now().date()
+    inactive_date = today - timedelta(days=30)
+
+    users = User.objects.filter(
+        is_active=True,
+        is_staff=False,
+        is_superuser=False,
+        last_login__isnull=False,
+        last_login__lt=inactive_date,
+    ).update(is_active=False)
+
     for user in users:
         if timezone.now() - user.last_login > timedelta(days=30):
             user.is_active = False

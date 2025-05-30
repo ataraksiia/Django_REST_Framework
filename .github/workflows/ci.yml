@@ -23,6 +23,19 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: skypro_hw
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: moon
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U your_user"
+          --health-interval 10s
+          --health-timeout 5s
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -41,7 +54,8 @@ jobs:
 
       - name: Run migrations
         env:
-          TEST_ENV: true
+          DATABASE_URL: postgres://your_user:your_password@localhost:5432/your_db_name
+          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
         run: python manage.py migrate
 
       - name: Run tests

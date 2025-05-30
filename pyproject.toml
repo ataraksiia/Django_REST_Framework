@@ -27,3 +27,7 @@ django-celery-beat = "^2.8.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+# Максимальная длина строки
+line-length = 119

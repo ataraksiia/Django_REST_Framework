@@ -63,6 +63,11 @@ jobs:
 
       - name: Run migrations
         env:
+          NAME: skypro_hw
+          USER: postgres
+          PASSWORD: moon
+          HOST: 127.0.0.1
+          PORT: 5432
           DATABASE_URL: ${{ env.DATABASE_URL }}
           SECRET_KEY: ${{ env.SECRET_KEY }}
         run: python manage.py migrate

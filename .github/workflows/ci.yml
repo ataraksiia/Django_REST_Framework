@@ -110,12 +110,21 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
+      - name: Ensure deployment directory exists on server
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          mkdir -p ${{ secrets.DEPLOY_DIR }} # Создает директорию, если ее нет, без ошибок
+          echo "Ensured directory ${{ secrets.DEPLOY_DIR }} exists."
+          EOF
+
       - name: Copy project files to server
         run: |
           echo "Listing files in GitHub Actions runner before rsync:"
           ls -la
+          # Добавим для дебага, чтобы видеть, какое значение DEPLOY_DIR используется
+          echo "DEBUG: DEPLOY_DIR used by rsync is: ${{ secrets.DEPLOY_DIR }}"
           rsync -avzr -e "ssh -vvv -o StrictHostKeyChecking=no" --exclude '__pycache__' --exclude '.git' --exclude '.gitignore' --exclude '.env.sample' ./ ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_DIR }}
-          
+
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
           echo "After rsync, listing contents of ${{ secrets.DEPLOY_DIR }}:"
           ls -la ${{ secrets.DEPLOY_DIR }}
@@ -139,4 +148,3 @@ jobs:
           ls -la
           pip install -r requirements.txt || echo "Failed to install requirements"
           EOF
-

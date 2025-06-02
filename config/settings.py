@@ -34,9 +34,7 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
@@ -134,9 +132,7 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BEAT_SCHEDULE = {
     "check_last_login": {
         "task": "lms.tasks.check_last_login",  # Путь к задаче
-        "schedule": timedelta(
-            days=1
-        ),  # Расписание выполнения задачи (например, каждые 10 минут)
+        "schedule": timedelta(days=1),  # Расписание выполнения задачи (например, каждые 10 минут)
     },
 }
 

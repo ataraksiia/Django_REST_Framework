@@ -6,9 +6,7 @@ from lms.models import Course, Lesson
 
 class User(AbstractUser):
     username = None
-    email = models.EmailField(
-        unique=True, verbose_name="Email", help_text="Введите почту"
-    )
+    email = models.EmailField(unique=True, verbose_name="Email", help_text="Введите почту")
     phone = models.CharField(
         max_length=35,
         verbose_name="Номер телефона",
@@ -30,9 +28,7 @@ class User(AbstractUser):
         null=True,
         help_text="Загрузите свой аватар",
     )
-    token = models.CharField(
-        max_length=100, verbose_name="Token", blank=True, null=True
-    )
+    token = models.CharField(max_length=100, verbose_name="Token", blank=True, null=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
@@ -49,9 +45,7 @@ class Payment(models.Model):
         ("cash", "Наличные"),
         ("transfer", "Перевод"),
     ]
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, verbose_name="Пользователь"
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
     payment_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата оплаты")
     paid_course = models.ForeignKey(
         Course,
@@ -67,9 +61,7 @@ class Payment(models.Model):
         blank=True,
         null=True,
     )
-    payment_amount = models.DecimalField(
-        max_digits=20, decimal_places=2, verbose_name="Сумма оплаты"
-    )
+    payment_amount = models.DecimalField(max_digits=20, decimal_places=2, verbose_name="Сумма оплаты")
     payment_method = models.CharField(
         max_length=10,
         choices=PAYMENT_METHOD,
